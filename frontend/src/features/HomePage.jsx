@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useGetHomesByUserQuery } from '../../redux/api/homesApiSlice';
-import HomeCard from '../../components/HomeCard';
-import UserDropdown from '../../components/UserDropdown';
-import Spinner from '../../components/Spinner';
+import { useGetHomesByUserQuery } from '../redux/api/homesApiSlice';
+import HomeCardContainer from '../components/HomeCardContainer';
+import UserDropdown from '../components/UserDropdown';
 
 const HomesPage = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -14,7 +13,6 @@ const HomesPage = () => {
         setCurrentPage(page);
     };
 
-    if (isLoading) return <Spinner />;
     if (isError) return <p>Error loading homes.</p>;
 
     const filteredHomes = homes
@@ -26,7 +24,7 @@ const HomesPage = () => {
             <div className="homes-list">
                 {filteredHomes.length > 0 ? (
                     filteredHomes.map((home) => (
-                        <HomeCard
+                        <HomeCardContainer
                             key={home.home_id}
                             home={home}
                         //   onEdit={() => dispatch(openModal(home.id))}

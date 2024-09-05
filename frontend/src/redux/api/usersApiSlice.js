@@ -7,7 +7,10 @@ export const usersApi = createApi({
     getUsers: builder.query({
       query: () => '/user/find-all',
     }),
+    findUsersByHome: builder.query({
+      query: (homeId) => `/user/find-by-home/${homeId}`,
+    }),
   }),
 });
 
-export const { useGetUsersQuery } = usersApi;
+export const { useGetUsersQuery, useFindUsersByHomeQuery } = usersApi;

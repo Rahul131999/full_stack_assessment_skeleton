@@ -14,20 +14,23 @@ export class HomesService {
   ) {}
 
   async findByUser(userId: number, page: number): Promise<Home[]> {
-    const take = 50;
+    const take = 15;
     const skip = (page - 1) * take;
     
     return this.homesRepository
       .createQueryBuilder('home')
-      .leftJoinAndSelect('home.users', 'user')
+      .leftJoinAndSelect('home.users', 'user')  // Join and select related users
       .where('user.user_id = :userId', { userId })
       .skip(skip)
       .take(take)
       .getMany();
+
   }
 
   async updateUsers(homeId: number, userIds: number[]): Promise<Home> {
     const home = await this.homesRepository.findOne({ where: { home_id: homeId }, relations: ['users'] });
+
+    console.log('home', home)
     
     if (!home) {
       throw new Error('Home not found');
@@ -40,6 +43,7 @@ export class HomesService {
     }
 
     home.users = users;
+    console.log('new', home)
     return this.homesRepository.save(home);
   }
 }
