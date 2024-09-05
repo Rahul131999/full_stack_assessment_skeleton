@@ -11,7 +11,7 @@ export class UsersService {
   ) {}
 
   findAll(): Promise<User[]> {
-    return this.usersRepository.find({ relations: ['homes'] });
+    return this.usersRepository.find();
   }
 
   findByHome(homeId: number): Promise<User[]> {

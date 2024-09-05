@@ -7,9 +7,6 @@ export class User {
   user_id: number;
 
   @Column({ unique: true })
-  username: string;
-
-  @Column({ unique: true })
   email: string;
 
   @ManyToMany(() => Home, home => home.users)
