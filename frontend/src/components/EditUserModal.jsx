@@ -1,36 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { useFindUsersByHomeQuery, useGetUsersQuery } from '../redux/api/usersApiSlice';
 import { useUpdateHomeUsersMutation } from '../redux/api/homesApiSlice';
+import { useSelector } from "react-redux";
 
 const EditUsersModal = ({ home, onClose }) => {
-  const { data: allUsers = [], isLoading, isError } = useGetUsersQuery();
+  const allUsers = useSelector((state) => state.users.users);
   const { data: homeUsers = [], isLoading: isLoadingHomeUsers, isError: isErrorHomeUsers } = useFindUsersByHomeQuery(home.home_id);
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [updateHomeUsers] = useUpdateHomeUsersMutation();
 
-
   useEffect(() => {
     if (homeUsers.length) {
-      // Set initially checked users based on the users related to the home
       setSelectedUsers(homeUsers.map(user => user.user_id));
     }
   }, [homeUsers]);
 
   const handleToggleUser = (userId) => {
-    setSelectedUsers((prevSelected) => {
-      if (prevSelected.includes(userId)) {
-        // Remove userId from selected users
-        return prevSelected.filter((id) => id !== userId);
-      } else {
-        // Add userId to selected users
-        return [...prevSelected, userId];
-      }
-    });
+    setSelectedUsers((prevSelected) =>
+      prevSelected.includes(userId)
+        ? prevSelected.filter((id) => id !== userId)
+        : [...prevSelected, userId]
+    );
   };
 
   const handleSave = async () => {
     try {
       await updateHomeUsers({ homeId: home.home_id, userIds: selectedUsers }).unwrap();
+      window.location.reload()
     } catch (error) {
       console.error('Failed to save users', error);
     }
@@ -38,13 +34,13 @@ const EditUsersModal = ({ home, onClose }) => {
 
   const isSaveDisabled = selectedUsers.length === 0;
 
-  if (isLoading) return <p>Loading users...</p>;
-  if (isError) return <p>Error loading users.</p>;
+  // if (isLoading) return <p>Loading users...</p>;
+  // if (isError) return <p>Error loading users.</p>;
 
   return (
     <div className="modal-overlay">
       <div className="modal-content">
-        <h2>Edit Users for {home.name}</h2>
+        <h2>Modify Users for: {home.street_address}</h2>
         <div className="users-list">
           {allUsers.map((user) => (
             <div key={user.user_id} className="user-item">
@@ -54,7 +50,7 @@ const EditUsersModal = ({ home, onClose }) => {
                   checked={selectedUsers.includes(user.user_id)}
                   onChange={() => handleToggleUser(user.user_id)}
                 />
-                {user.email}
+                {user.username}
               </label>
             </div>
           ))}

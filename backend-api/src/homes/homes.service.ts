@@ -14,7 +14,7 @@ export class HomesService {
   ) {}
 
   async findByUser(userId: number, page: number): Promise<Home[]> {
-    const take = 15;
+    const take = 16;
     const skip = (page - 1) * take;
     
     return this.homesRepository
@@ -30,8 +30,6 @@ export class HomesService {
   async updateUsers(homeId: number, userIds: number[]): Promise<Home> {
     const home = await this.homesRepository.findOne({ where: { home_id: homeId }, relations: ['users'] });
 
-    console.log('home', home)
-    
     if (!home) {
       throw new Error('Home not found');
     }
@@ -43,7 +41,6 @@ export class HomesService {
     }
 
     home.users = users;
-    console.log('new', home)
     return this.homesRepository.save(home);
   }
 }
