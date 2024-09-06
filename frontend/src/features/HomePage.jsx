@@ -9,7 +9,6 @@ const HomesPage = () => {
   const selectedUser = useSelector((state) => state.users.selectedUser);
   const {
     data: homes = [],
-    isLoading,
     isError,
   } = useGetHomesByUserQuery(
     { userId: selectedUser, page: currentPage },
@@ -43,7 +42,7 @@ const HomesPage = () => {
             </button>
             <button 
               onClick={() => handlePageChange(currentPage + 1)}
-              disabled={homes.length<16}
+              disabled={homes.length<50}
             >
               Next
             </button>

@@ -14,7 +14,7 @@ export class HomesService {
   ) {}
 
   async findByUser(userId: number, page: number): Promise<Home[]> {
-    const take = 16;
+    const take = 50;
     const skip = (page - 1) * take;
     
     return this.homesRepository

@@ -3,13 +3,12 @@
   display: flex;
   flex-wrap: wrap; /* Allow wrapping to the next row when needed */
   gap: 5px; /* Space between cards */
-  margin: 10px; /* Add some margin around the container */
+  margin: 2px; /* Add some margin around the container */
   justify-content: center; /* Spread out the cards */
 }
 
 /* Styling for individual cards */
 .home-card {
-  flex: 1 1 15%; /* Roughly 4-5 cards per row */
   background-color: #f9f9f9;
   border: 1px solid #ddd;
   border-radius: 8px;

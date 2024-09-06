@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const homesApi = createApi({
   reducerPath: 'homesApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000' }),
+  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_API_BASE_URL }),
   endpoints: (builder) => ({
     getHomesByUser: builder.query({
       query: ({ userId, page = 1 }) => `/home/find-by-user/${userId}?page=${page}`,
