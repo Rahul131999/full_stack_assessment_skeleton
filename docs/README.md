@@ -129,7 +129,26 @@ docker-compose -f docker-compose.initial.yml up --build -d
 
 ### solution
 
-> explain briefly your solution for this problem here
+The problem presented was that the `user_home` table had both user-related and home-related attributes, without normalization, which led to redundancy and violated database normalization principles.
+
+To address this, I refactored the database structure by splitting the `user_home` table into two main entities: `user` and `home`. This allowed us to achieve a more normalized database schema by creating relationships between users and homes through foreign keys, ensuring no redundancy.
+
+### Key Problem Solving Points
+
+- **User Table**: Created a `user` table to store `username` and `email` attributes. This avoids redundant data for users who are related to multiple homes.
+  
+- **Home Table**: Created a `home` table to store home-specific attributes, including `street_address`, `state`, `zip`, `sqft`, `beds`, `baths`, and `list_price`.
+
+- **Relationship**: To represent the many-to-many relationship between users and homes, I created a junction table `user_home_links`. This table uses foreign keys to reference the primary keys of the `user` and `home` tables, effectively linking the two entities.
+
+- **Foreign Keys**: Foreign keys were set up to ensure data integrity between the `user_home_links` and the `user` and `home` tables.
+
+### Instructions
+
+1. To migrate the database and apply the changes, execute the SQL script `99_final_db_dump.sql` located in the `sql` directory.
+2. This script creates the `user`, `home`, and `user_home_links` tables and migrates the existing data into these tables.
+3. The `user_home_links` table establishes foreign key relationships between `user` and `home`.
+4. Ensure the MySQL database is running via Docker and use the provided credentials to connect.
 
 ## 2. React SPA
 
@@ -220,7 +239,36 @@ docker-compose -f docker-compose.initial.yml up --build -d
 
 ### solution
 
-> explain briefly your solution for this problem here
+The solution was to build a responsive SPA using React, with state management via Redux Toolkit and data fetching handled through RTK Query. The interface allows users to view home details and edit the users linked to each home through a modal.
+
+### Key Problem Solving Points
+
+- **State Management**: Redux Toolkit was utilized to manage the application state. It effectively handled user lists, homes, and their relationships.
+  
+- **Data Fetching**: RTK Query was employed for API requests to the backend, enabling smooth data fetching and updating user-home associations.
+
+- **UI Components**: Homes were displayed in card format, showing relevant details like address, price, square footage, and number of beds and baths. An edit modal allowed users to modify the user-home associations interactively.
+
+- **Responsive Design**: The layout was built to display five home cards horizontally on desktop, while adjusting gracefully for smaller screens.
+
+- **User Editing**: A modal was created where users could toggle checkboxes for selecting which users are associated with a home. Changes made in the modal were reflected in the UI and saved to the backend.
+
+### Instructions
+
+1. To run the frontend locally:
+   - Clone the repository and navigate to the frontend directory.
+   - Install dependencies using `npm install` or `yarn`.
+   - Start the development server with `npm start` or `yarn start`.
+
+### Instructions
+
+1. Clone the repository and navigate to the frontend directory.
+2. Install the necessary dependencies with `npm install` or `yarn`.
+3. **Environment Setup**:
+   - I've already pushed the `.env` file containing the necessary environment variables. Simply pull the latest changes from the repository.
+4. Start the development server with `npm run dev` or `yarn dev`.
+5. The frontend will be available at the specified port, ready to interact with the backend APIs.
+
 
 ## 3. Backend API development on Node
 
@@ -281,7 +329,30 @@ docker-compose -f docker-compose.initial.yml up --build -d
 
 ### solution
 
-> explain briefly your solution for this problem here
+The backend API was developed using **NestJS**, a framework that supports efficient backend API development with TypeScript. The API handles user-home relationships by utilizing a normalized database structure consisting of `user`, `home`, and `user_home_links` tables.
+
+### Key Problem Solving Points
+
+- **User API**: Implemented the following API endpoints to retrieve and manage users and their associated homes:
+  - `/user/find-all`: Returns all users from the `user` table.
+  - `/user/find-by-home`: Fetches users associated with a particular home.
+
+- **Home API**: Designed the following endpoints for fetching and updating homes based on user associations:
+  - `/home/find-by-user`: Retrieves homes related to a user, with pagination support.
+  - `/home/update-users`: Updates the set of users associated with a particular home, ensuring idempotent updates.
+
+- **Pagination**: Implemented pagination with a default page size of 50 for the `/home/find-by-user` endpoint.
+
+### Instructions
+
+1. Ensure the MySQL database is running and **in the normalized form** as per the refactoring (with `user`, `home`, and `user_home_links` tables).
+2. Clone the repository and navigate to the backend directory.
+3. Install the necessary dependencies with `npm install` or `yarn`.
+4. **Environment Setup**:
+   - I've already pushed the `.env` file containing the necessary environment variables. Simply pull the latest changes from the repository.
+5. The backend is built with **NestJS**, so start the server with `npm run start:dev` or `yarn start:dev`.
+6. The APIs will be available at the specified port, ready for interaction with the frontend.
+
 
 ## Submission Guidelines
 
