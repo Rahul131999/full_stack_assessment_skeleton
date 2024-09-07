@@ -255,13 +255,6 @@ The solution was to build a responsive SPA using React, with state management vi
 
 ### Instructions
 
-1. To run the frontend locally:
-   - Clone the repository and navigate to the frontend directory.
-   - Install dependencies using `npm install` or `yarn`.
-   - Start the development server with `npm start` or `yarn start`.
-
-### Instructions
-
 1. Clone the repository and navigate to the frontend directory.
 2. Install the necessary dependencies with `npm install` or `yarn`.
 3. **Environment Setup**:
